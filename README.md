@@ -40,17 +40,18 @@ Once you're confident in your solution, register it with the `OptimizorWar` cont
 First, commit your solution:
 
 ```bash
-forge script SolutionScript --sig "commit()" --rpc-url $FOUNDRY_ETH_RPC_URL --broadcast -vvvv
+forge script SolutionScript --sig "commit()" --rpc-url $FOUNDRY_ETH_RPC_URL -vvvv --priority-gas-price 0.000001gwei --broadcast
 ```
 
 After waiting 32 blocks, deploy and challenge your solution:
 
 ```bash
-forge script SolutionScript --sig "deployAndChallenge()" --rpc-url $FOUNDRY_ETH_RPC_URL --broadcast -vvvv
+forge script SolutionScript --sig "deployAndChallenge()" --rpc-url $FOUNDRY_ETH_RPC_URL -vvvv --priority-gas-price 0.000001gwei --broadcast
 ```
 
 Note:
 - These commands send live transactions on Optimism. Replace `<OPTIMISM RPC URL>` with a valid URL.
+- `--priority-gas-price 0.000001gwei` is important because the default priority gas price `3gwei` is too high for Optimism. 
 - You'll need to use an actual wallet for transactions. You can specify your wallet using the `--wallet` flag. Alternatively, you can input your private key in other ways, such as by using the `--interactive` flag. See [Foundry documentation](https://book.getfoundry.sh/) for more information.
 
 ## Wrapping Up
