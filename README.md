@@ -4,10 +4,10 @@ Greetings, Huffoor! This document will guide you through the steps to solve this
 
 ## Overview
 
-This is an solver for `ExampleChallenge` in [Optimizor War](https://github.com/minaminao/optimizor-war).
+This is an solver for [`ExampleChallenge`](https://optimistic.etherscan.io/address/0xe55e00d743751fd622a9a0478b3c4a47ef3cd632) in [Optimizor War](https://github.com/minaminao/optimizor-war).
 The winner will be the submission with the lowest total gas.
 
-*Ties will be decided by looking at submission time.
+If you work on other challenges, change the `CHALLENGE_ID` in `Config.sol`. You can find the challenge ID in the challenge registry or the `optimizor-war` repository.
 
 ## Getting Started
 
@@ -39,7 +39,7 @@ First, commit your solution:
 forge script SolutionScript --sig "commit()" --rpc-url <OPTIMISM RPC URL> --broadcast -vvvv
 ```
 
-After 32 blocks, deploy and challenge your solution:
+After waiting 32 blocks, deploy and challenge your solution:
 
 ```bash
 forge script SolutionScript --sig "deployAndChallenge()" --rpc-url <OPTIMISM RPC URL> --broadcast -vvvv
