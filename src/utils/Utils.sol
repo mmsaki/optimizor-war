@@ -1,51 +1,46 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity 0.8.19;
 
-import {CREATOR} from "./CREATOR.sol";
 import "forge-std/Test.sol";
 
-// huff-runner
 import {compileWithVersion, create, EvmVersion} from "huff-runner/Deploy.sol";
+import {IOptimizorWar} from "./IOptimizorWar.sol";
+import {CHALLENGE_ID} from "src/Config.sol";
 
 using {compileWithVersion} for Vm;
 using {create} for bytes;
 
-/// @notice This file generally does not need to be updated by CREATOR or PLAYER.
-/// This contract is inherited by both Tests and Scripts and provides an interface
-/// to the CREATOR contract along with some other helper functions.
-
 contract Utils is Test {
-    function verify() public returns (bool) {
-        return CREATOR.verify(getTempSolutionAddress());
-    }
-
-    function gasReport() public returns (uint256 gasUsed) {
-        return CREATOR.gasReport(getTempSolutionAddress());
-    }
+    IOptimizorWar optimizorWar = IOptimizorWar(0x7ef472638fCf72216466D20C92265F9eEac5C716);
 
     function codeHash() public returns (bytes32) {
-        bytes memory bytecode = getCreationCode();
-        console.logBytes(bytecode);
-        return keccak256(bytecode);
+        return deploy().codehash;
     }
 
-    function ctfId() public pure returns (uint8) {
-        return CREATOR.ctfId();
-    }
-
-    function playerHandle() public returns (string memory PLAYER_HANDLE) {
+    function playerHandle() public view returns (string memory PLAYER_HANDLE) {
         PLAYER_HANDLE = vm.envString("PLAYER_HANDLE");
-        require(keccak256(abi.encode(PLAYER_HANDLE)) != keccak256(abi.encode("")), "IMPORTANT: PLAYER to update env var PLAYER_HANDLE");
-
+        require(
+            keccak256(abi.encode(PLAYER_HANDLE)) != keccak256(abi.encode("")),
+            "IMPORTANT: PLAYER to update env var PLAYER_HANDLE"
+        );
     }
 
-    // It might be useful for the CREATOR during development to switch the getCreationCode
-    // to point at a reference implementation in Solidity for example.
     function getCreationCode() public returns (bytes memory) {
         return vm.compileWithVersion("src/PLAYER_SOLUTION.huff", EvmVersion.Paris);
     }
 
-    function getTempSolutionAddress() public returns (address) {
+    function deploy() public returns (address) {
         return getCreationCode().create({value: 0});
+    }
+
+    function verify() public {
+        uint256 salt = 0;
+        address solverAddr = deploy();
+        bytes32 key = keccak256(abi.encode(address(this), solverAddr.codehash, salt));
+        string memory solverHandle = playerHandle();
+
+        optimizorWar.commit(key);
+        vm.roll(block.number + optimizorWar.BLOCKS_TO_PREVENT_FRONT_RUNNING());
+        optimizorWar.challenge(CHALLENGE_ID, solverAddr, salt, solverHandle);
     }
 }
