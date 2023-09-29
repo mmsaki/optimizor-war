@@ -1,0 +1,94 @@
+#include "./libsort.huff"
+#include "./libcounter.huff"
+
+/// # Challenge 2: Sorting an Array
+///
+/// Insertion Sort implimentation in huff! 
+/// See video, insersion sort in python: https://www.youtube.com/watch?v=R_wDA-PmGE4
+///
+/// + Working with array of length 10
+/// + Implement for longer array is possible
+///
+/// ## Directives
+/// 1. Stores arg(n) pointer at 0x00 in memory 
+/// 2. Loads calldata args(0..n) on stack and sorts them in ascending order 
+/// 3. Stores sorted array at 0x00..0x120 in memory
+///
+/// ### Panics
+/// + Reverts if selector is not equal to `0x209b472e`
+
+/// ### Calldata layout
+/// 
+/// `selector . arg0 . arg1 - arg(n)`
+/// 
+/// | name     | size (bytes) | offset |
+/// | -------- | ------------ | ------ |
+/// | offset   | 32           |   0x00 |
+/// | length   | 32           |   0x20 |
+/// | arg0     | 32           |   0x40 |
+/// | arg1     | 32           |   0x60 |
+/// | arg2     | 32           |   0x80 |
+/// | arg3     | 32           |   0xa0 |
+/// | arg4     | 32           |   0xc0 |
+
+#define macro MAIN() = takes(0) returns(0) {
+
+  0x40 0x60     // [next_ptr, curr_ptr]
+  0x00 mstore   // [current_ptr]
+  calldataload  // [arg0]
+  BEGIN()       // [arg0]
+  
+  0x20 0x00 mstore
+  0x05 0x20 mstore 
+  0x40  mstore    // [arg2, arg3, arg4, arg5]
+  0x60  mstore    // [arg3, arg4, arg5]           
+  0x80  mstore    // [arg4, arg5]
+  0xa0  mstore    // [arg5]
+  0xc0  mstore    // []
+
+  0xe0            // [mem_len]
+  0x00            // [mem_ptr, mem_len]
+  return          // []
+}
+
+#define macro BEGIN() = takes(1) returns(10) {  
+  // Takes:         //       [arg0]
+  UPDATE_COUNTER()  // [arg1, arg0]
+
+  // 1. arg1 < arg0
+  dup2 dup2       //        [arg1, arg0, arg1, arg0]
+  lt sort jumpi   // [sort_dest, truthy, arg1, arg0]
+  swap1           //                    [arg0, arg1]
+
+  sort:
+    SORT2()         // [arg0, arg1, arg2]
+    SORT3()         // [arg0, arg1, arg2, arg3]
+    SORT4()         // [arg0, arg1, arg2, arg3, arg4]
+}
+
+#define macro SORT2() = takes(2) returns(3) {
+  // Takes:         //       [arg0, arg1]
+  UPDATE_COUNTER()  // [arg2, arg0, arg1]
+  TOP2()            // [arg0, arg2, arg1]
+  TOP3()            // [arg0, arg1, arg2]
+  loop:             // 3. SORT3()
+}
+
+#define macro SORT3() = takes(3) returns(4) {
+  // takes:         //       [arg0, arg1, arg2]
+  UPDATE_COUNTER()  // [arg3, arg0, arg1, arg2]
+  TOP2()            // [arg0, arg3, arg1, arg2]
+  TOP3()            // [arg0, arg1, arg3, arg2]
+  TOP4()            // [arg0, arg1, arg2, arg3]
+  loop:             // 4. SORT4()
+}
+
+#define macro SORT4() = takes(4) returns(4) {
+  // takes:         //       [arg0, arg1, arg2, arg3]
+  UPDATE_COUNTER()  // [arg4, arg0, arg1, arg2, arg3]
+  TOP2()            // [arg0, arg4, arg1, arg2, arg3]
+  TOP3()            // [arg0, arg1, arg4, arg2, arg3]
+  TOP4()            // [arg0, arg1, arg2, arg4, arg3]
+  TOP5()            // [arg0, arg1, arg2, arg3, arg4]
+  loop:             // 5. SORT5()
+}
