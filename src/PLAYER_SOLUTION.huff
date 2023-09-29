@@ -18,7 +18,7 @@
   0x40 mload // [n]
   eq 0x00 eq y jumpi
   0x20 mload // [count]
-  0x02 add   // [count+1]
+  0x01 add   // [count+1]
   0x20 mstore // []
 
   y:
@@ -53,19 +53,27 @@
   MOD()
   MOD()
   MOD()
-  MOD()
-  MOD()
 }
 
 
 #define macro MOD() = takes(0) returns(0) {
   // WHILE()
+  0x69
   0x00 mload // [i]
   dup1       // [i,i]
   mul        // [i**2]
   0x40 mload // [n]
+  dup2 dup2
   lt f jumpi // [pass]
-  INCRIMENT()
+  eq 0x00 eq proceed jumpi
+  0x20 mload // [count]
+  0x01 add   // [count+1]
+  0x20 mstore // []
+  0x20 0x20 return
+
+
+  proceed:
+    INCRIMENT()
   
   f:
 }
