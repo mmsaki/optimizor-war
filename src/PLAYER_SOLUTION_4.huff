@@ -1,0 +1,84 @@
+#define macro MAIN() = takes (0) returns (0) {
+
+    0x60 calldataload
+    dup1
+    REVERSE()
+    0x40 mstore
+    
+    0x40 calldataload
+    dup1
+    REVERSE()
+    0x60 mstore
+
+    0x20 0x00 mstore
+    0x40 0x20 mstore
+
+    0x80 0x00 return
+}
+
+#define macro REVERSE() = takes (1) returns (1) {
+    0xff and 0xf8 shl 
+    dup2
+    0xff00 and 0xe8 shl or
+    dup2 
+    0xff0000 and 0xd8 shl or
+    dup2
+    0xff000000 and 0xc8 shl or
+    dup2
+    0xff00000000 and 0xb8 shl or
+    dup2
+    0xff0000000000 and 0xa8 shl or
+    dup2
+    0xff000000000000 and 0x98 shl or
+    dup2
+    0xff00000000000000 and 0x88 shl or
+    dup2
+    0xff0000000000000000 and 0x78 shl or
+    dup2
+    0xff000000000000000000 and 0x68 shl or
+    dup2
+    0xff00000000000000000000 and 0x58 shl or
+    dup2
+    0xff0000000000000000000000 and 0x48 shl or
+    dup2
+    0xff000000000000000000000000 and 0x38 shl or
+    dup2
+    0xff00000000000000000000000000 and 0x28 shl or
+    dup2
+    0xff0000000000000000000000000000 and 0x18 shl or
+    dup2
+    0xff000000000000000000000000000000 and 0x08 shl or
+
+    dup2
+    0xf8 shr or
+    dup2
+    0xf0 shr 0x00ff and 0x08 shl or
+    dup2
+    0xe8 shr 0x0000ff and 0x10 shl or
+    dup2
+    0xe0 shr 0x000000ff and 0x18 shl or
+    dup2
+    0xd8 shr 0x00000000ff and 0x20 shl or
+    dup2
+    0xd0 shr 0x0000000000ff and 0x28 shl or
+    dup2
+    0xc8 shr 0x000000000000ff and 0x30 shl or
+    dup2
+    0xc0 shr 0x00000000000000ff and 0x38 shl or
+    dup2
+    0xb8 shr 0x0000000000000000ff and 0x40 shl or
+    dup2
+    0xb0 shr 0x000000000000000000ff and 0x48 shl or
+    dup2
+    0xa8 shr 0x00000000000000000000ff and 0x50 shl or
+    dup2
+    0xa0 shr 0x0000000000000000000000ff and 0x58 shl or
+    dup2
+    0x98 shr 0x000000000000000000000000ff and 0x60 shl or
+    dup2
+    0x90 shr 0x00000000000000000000000000ff and 0x68 shl or
+    dup2
+    0x88 shr 0x0000000000000000000000000000ff and 0x70 shl or
+    swap1
+    0x80 shr 0x000000000000000000000000000000ff and 0x78 shl or
+}

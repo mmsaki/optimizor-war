@@ -1,22 +1,23 @@
-
-
 {
-    "workbench.colorCustomizations": {
-      "titleBar.activeForeground": "#e30000",
-      "titleBar.inactiveForeground": "#e30000",
-      "titleBar.activeBackground": "#8ccbfe",
-      "titleBar.inactiveBackground": "#8ccbfe"
-    },
-    "editor.tokenColorCustomizations": {
-      "textMateRules": [
-          {
-              "scope": [
-                  "comment",
-              ],
-              "settings": {
-                  "fontStyle": "",
-              }
-          }
-      ]
-    }
+	"workbench.colorCustomizations": {
+		"titleBar.activeForeground": "#e30000",
+		"titleBar.inactiveForeground": "#e30000",
+		"titleBar.activeBackground": "#8ccbfe",
+		"titleBar.inactiveBackground": "#8ccbfe"
+	},
+	"editor.tokenColorCustomizations": {
+		"textMateRules": [
+			{
+				"scope": ["comment"],
+				"settings": {
+					"fontStyle": ""
+				}
+			}
+		]
+	},
+	"woke.compiler.solc.remappings": [
+		"ds-test/=lib/forge-std/lib/ds-test/src/",
+		"forge-std/=lib/forge-std/src/",
+		"huff-runner/=lib/huff-runner/src/"
+	]
 }

@@ -1,0 +1,11 @@
+//! # Counter library
+//!
+//! This library saves calldata pointer in memory and returns the next item
+
+#define macro UPDATE_COUNTER() = takes(0) returns(1) {
+  // takes:       //                          [agr0]
+  0x00 mload     //                [counter0, arg0]
+  dup1 0x20 add   //      [counter2, counter1, arg0] 
+  0x00 mstore    //                [counter1, arg0]
+  calldataload    //                    [arg1, arg0]
+}

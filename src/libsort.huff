@@ -1,0 +1,47 @@
+//! # A library for sorting stack items
+//!
+//! Takes top unsorted stack inputs of size (n) and swaps them in ascending order
+
+#define macro TOP2() = takes(2) returns(2) {
+  // Takes:       //              [arg1, arg0]
+  dup2 dup2       //  [arg1, arg0, arg1, arg0]
+  // arg1 < arg0
+  lt loop jumpi   //  [loop, bool, arg1, arg0]
+  swap1           //              [arg0, arg1]
+}
+
+#define macro TOP3() = takes(3) returns(3) {
+  // Takes:       //              [arg0, arg2, arg1]
+  dup3 dup3       //  [arg2, arg1, arg0, arg2, arg1]
+  // arg2 < arg1
+  lt loop jumpi   //  [loop, bool, arg0, arg2, arg1]
+  swap1           //              [arg2, arg0, arg1]
+  swap2           //              [arg1, arg0, arg2]
+  swap1           //              [arg0, arg1, arg2]
+}
+
+#define macro TOP4() = takes(4) returns(4) {
+  // Takes:       //              [arg0, arg1, arg3, arg2]
+  dup4 dup4       //  [arg3, arg2, arg0, arg1, arg3, arg2]
+  // arg3 < arg2
+  lt loop jumpi   //  [loop, bool, arg0, arg1, arg3, arg2]
+  swap1           //              [arg1, arg0, arg3, arg2]
+  swap2           //              [arg3, arg0, arg1, arg2]
+  swap3           //              [arg2, arg0, arg1, arg3]
+  swap2           //              [arg1, arg0, arg2, arg3]
+  swap1           //              [arg0, arg1, arg2, arg3]
+}
+
+#define macro TOP5() = takes(5) returns(5) {
+  // Takes:       //              [arg0, arg1, arg2, arg4, arg3]
+  dup5 dup5       //  [arg4, arg3, arg0, arg1, arg2, arg4, arg3]
+  // arg4 < arg3
+  lt loop jumpi   //  [loop, bool, arg0, arg1, arg2, arg4, arg3]
+  swap1           //              [arg1, arg0, arg2, arg4, arg3]
+  swap2           //              [arg2, arg0, arg1, arg4, arg3]
+  swap3           //              [arg4, arg0, arg1, arg2, arg3]
+  swap4           //              [arg3, arg0, arg1, arg2, arg4]
+  swap3           //              [arg2, arg0, arg1, arg3, arg4]
+  swap2           //              [arg1, arg0, arg2, arg3, arg4]
+  swap1           //              [arg0, arg1, arg2, arg3, arg4]
+}

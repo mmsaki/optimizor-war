@@ -11,7 +11,8 @@ using {compileWithVersion} for Vm;
 using {create} for bytes;
 
 contract Utils is Test {
-    IOptimizorWar optimizorWar = IOptimizorWar(0x7ef472638fCf72216466D20C92265F9eEac5C716);
+    IOptimizorWar optimizorWar =
+        IOptimizorWar(0x7ef472638fCf72216466D20C92265F9eEac5C716);
 
     function codeHash() public returns (bytes32) {
         return deploy().codehash;
@@ -26,7 +27,8 @@ contract Utils is Test {
     }
 
     function getCreationCode() public returns (bytes memory) {
-        return vm.compileWithVersion("src/PLAYER_SOLUTION.huff", EvmVersion.Paris);
+        return
+            vm.compileWithVersion("src/PLAYER_SOLUTION.huff", EvmVersion.Paris);
     }
 
     function deploy() public returns (address) {
@@ -36,7 +38,9 @@ contract Utils is Test {
     function verify() public {
         uint256 salt = 0;
         address solverAddr = deploy();
-        bytes32 key = keccak256(abi.encode(address(this), solverAddr.codehash, salt));
+        bytes32 key = keccak256(
+            abi.encode(address(this), solverAddr.codehash, salt)
+        );
         string memory solverHandle = playerHandle();
 
         optimizorWar.commit(key);

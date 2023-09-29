@@ -6,7 +6,7 @@ import {Utils} from "src/utils/Utils.sol";
 import {CHALLENGE_ID} from "src/Config.sol";
 
 contract SolutionScript is Script, Utils {
-    uint256 salt = 0; // CHANGE FOR EACH SOLUTION
+    uint256 salt = 77778888; // CHANGE FOR EACH SOLUTION
 
     // forge script SolutionScript --sig "commit()" -vvvv --broadcast
     function commit() public {
@@ -23,7 +23,12 @@ contract SolutionScript is Script, Utils {
 
         vm.startBroadcast();
         address solver = deploy();
-        optimizorWar.challenge(CHALLENGE_ID, address(solver), salt, solverHandle);
+        optimizorWar.challenge(
+            CHALLENGE_ID,
+            address(solver),
+            salt,
+            solverHandle
+        );
         vm.stopBroadcast();
     }
 }
