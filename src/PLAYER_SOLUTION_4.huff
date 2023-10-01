@@ -3,6 +3,16 @@
 ///! Reverses a 64 byte word:
 ///! + `0xaabbccdd...` becomes `0x...ddccbbaa`
 ///!
+///! ## Calldata layout
+///!
+///! ` offset . length . word1 . word2 `
+///! 
+///! | name     | size (bytes) | offset |
+///! | -------- | ------------ | ------ |
+///! | offset   | 32           |   0x00 |
+///! | length   | 32           |   0x20 |
+///! | word1    | 32           |   0x40 |
+///! | word2    | 32           |   0x60 |
 
 #define macro MAIN() = takes (0) returns (0) {
 
