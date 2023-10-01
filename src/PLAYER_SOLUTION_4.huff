@@ -1,3 +1,9 @@
+///! # Reverse
+///! 
+///! Reverses a 64 byte word:
+///! + `0xaabbccdd...` becomes `0x...ddccbbaa`
+///!
+
 #define macro MAIN() = takes (0) returns (0) {
 
     0x60 calldataload
