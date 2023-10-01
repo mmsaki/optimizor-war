@@ -6,7 +6,7 @@ import {Utils} from "src/utils/Utils.sol";
 import {CHALLENGE_ID} from "src/Config.sol";
 
 contract SolutionScript is Script, Utils {
-    uint256 salt = 300; // CHANGE FOR EACH SOLUTION
+    uint256 salt = 2909; // CHANGE FOR EACH SOLUTION
 
     // forge script SolutionScript --sig "commit()" -vvvv --broadcast
     function commit() public {

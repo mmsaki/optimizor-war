@@ -24,32 +24,37 @@
   start:
     START()
   
+  
   done:
-    dup1            // [i,i]
-    mul             // [i**i]
-    swap1 swap2     // [n]
+    0x40 mload // [n]
+    0x00 mload // [i]
+    dup1       // [i,i]
+    mul        // [i**i]
     eq iszero y jumpi
-    0x01 add        // [count+1]
+    0x20 mload // [count]
+    0x01 add   // [count+1]
+    0x20 mstore // []
 
   y:
-    0x00 mstore
-    0x20 0x00 return
+    0x20 0x20 return
 }
 
-#define macro START() = takes(1) returns(0) {
-    0x02      //     [i, value]
-    0x02      // [count, value]
+#define macro START() = takes(0) returns(0) {
+    0x02 0x00 mstore // [i]
+    0x02 0x20 mstore // [count]
+    0x40 mstore      // [n]
 
     LOOP()
+
     
 }
 
 #define macro LOOP() = takes(0) returns(0) {
   while:
-    dup3 // [n]
-    dup2 // [i]
-    dup1 // [i,i]
-    mul  // [i**2]
+    0x40 mload // [n]
+    0x00 mload // [i]
+    dup1       // [i,i]
+    mul        // [i**2]
     lt f jumpi // [pass]
 
   done jump
@@ -58,19 +63,22 @@
     DIVISIBLE()
 
   q:
+    0x00 mload  // [i]
     0x01 add    // [i+1]
+    0x00 mstore // []
 
   while jump
 }
 
 #define macro DIVISIBLE() = takes(0) returns(0) {
   // if n % i == 0
-  dup1    // [i]
-  dup4    // [n]
+  0x00 mload // [i]
+  0x40 mload // [n]
   mod iszero k jumpi
 
   q jump
 
   k:
-    swap1 0x02 add swap1 // [count+2]
+    0x20 mload 0x02 add // [count+2]
+    0x20 mstore   // []
 }
