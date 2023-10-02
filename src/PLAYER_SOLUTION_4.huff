@@ -1,38 +1,37 @@
-///! # Reverse
-///! 
-///! Reverses a 64 byte word:
-///! + `0xaabbccdd...` becomes `0x...ddccbbaa`
-///!
-///! ## Calldata layout
-///!
-///! ` offset . length . word1 . word2 `
-///! 
-///! | name     | size (bytes) | offset |
-///! | -------- | ------------ | ------ |
-///! | offset   | 32           |   0x00 |
-///! | length   | 32           |   0x20 |
-///! | word1    | 32           |   0x40 |
-///! | word2    | 32           |   0x60 |
+//! # Reverse
+//! 
+//! Reverses a 64 byte word:
+//! + `0xaabbccdd...` becomes `0x...ddccbbaa`
+
+/// ## Calldata layout
+///
+/// ` offset . length . word1 . word2 `
+/// 
+/// | name     | size (bytes) | offset |
+/// | -------- | ------------ | ------ |
+/// | offset   | 32           |   0x00 |
+/// | length   | 32           |   0x20 |
+/// | word1    | 32           |   0x40 |
+/// | word2    | 32           |   0x60 |
 
 #define macro MAIN() = takes (0) returns (0) {
 
-    0x60 calldataload
-    dup1
-    REVERSE()
-    0x40 mstore
+    0x60 calldataload       //          [word2]
+    dup1                    //   [word2, word2]
+    REVERSE()               // [word2_reversed]
+    0x40 mstore             //               []
     
-    0x40 calldataload
-    dup1
-    REVERSE()
-    0x60 mstore
+    0x40 calldataload       //          [word1]
+    dup1                    //   [word1, word1]
+    REVERSE()               // [word1_reversed]
+    0x60 mstore             //               []
 
-    0x20 0x00 mstore
-    0x40 0x20 mstore
-
-    0x80 0x00 return
+    0x20 0x00 mstore        //         [offset]
+    0x40 0x20 mstore        //         [length]
+    0x80 0x00 return        //               []
 }
 
-#define macro REVERSE() = takes (1) returns (1) {
+#define macro REVERSE() = takes (2) returns (1) {
     0xff and 0xf8 shl 
     dup2
     0xff00 and 0xe8 shl or

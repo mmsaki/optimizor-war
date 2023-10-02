@@ -1,18 +1,14 @@
-///! # Divisors
-///!
-///! It returns the count of divisors for a number between 1 - 1000
-///!
-///! ## Panics
-///! 
-///! + No panics implemented `TODO`
+//! # Divisors
+//!
+//! It returns the count of divisors for a number between 1 - 1000
 
-///! ## Calldata layout
-///!
-///!  `value`
-///!
-///! | name     | size (bytes) | offset |
-///! | -------- | ------------ | ------ |
-///! | value    | 32           | 0x00   |
+/// ## Calldata layout
+///
+///  `value`
+///
+/// | name     | size (bytes) | offset |
+/// | -------- | ------------ | ------ |
+/// | value    | 32           | 0x00   |
 
 #define macro MAIN() = takes(0) returns(0) {
   0x00 calldataload
@@ -41,7 +37,6 @@
     0x02      // [count, value]
 
     LOOP()
-    
 }
 
 #define macro LOOP() = takes(0) returns(0) {

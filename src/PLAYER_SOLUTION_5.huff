@@ -1,35 +1,35 @@
 #include "./libsort.huff"
 #include "./libcounter.huff"
 
-///! # Sorting an Array of length 5
-///!
-///! Insertion Sort implimentation in huff! 
-///! See video, insersion sort in python: https://www.youtube.com/watch?v=R_wDA-PmGE4
-///!
-///! + Working with array of length 5
-///! + Implement for longer array is possible on stack
-///!
-///! ## Directives
-///! 1. Stores arg(n) pointer at 0x00 in memory 
-///! 2. Loads calldata args(0..n) on stack and sorts them in ascending order 
-///! 3. Stores sorted array at 0x00..0xa0 in memory
-///!
-///! ### Panics
-///! + Not implemented `TODO`
+//! # Sorting an Array of length 5
+//!
+//! Insertion Sort implimentation in huff 
+//! See video, insersion sort in python: https://www.youtube.com/watch?v=R_wDA-PmGE4
+//!
+//! + Working with array of length 5
+//! + Implement for longer array is possible on stack
+//!
+//! ## Directives
+//! 1. Stores arg(n) pointer at 0x00 in memory 
+//! 2. Loads calldata args(0..n) on stack and sorts them in ascending order 
+//! 3. Stores sorted array at 0x00..0xa0 in memory
+//!
+//! ### Panics
+//! + Not implemented `TODO`
 
-///! ### Calldata layout
-///! 
-///! `offset . length . arg0 . arg1 ... arg(n)`
-///! 
-///! | name     | size (bytes) | offset |
-///! | -------- | ------------ | ------ |
-///! | offset   | 32           |   0x00 |
-///! | length   | 32           |   0x20 |
-///! | arg0     | 32           |   0x40 |
-///! | arg1     | 32           |   0x60 |
-///! | arg2     | 32           |   0x80 |
-///! | arg3     | 32           |   0xa0 |
-///! | arg4     | 32           |   0xc0 |
+/// ### Calldata layout
+/// 
+/// `offset . length . arg0 . arg1 ... arg(n)`
+/// 
+/// | name     | size (bytes) | offset |
+/// | -------- | ------------ | ------ |
+/// | offset   | 32           |   0x00 |
+/// | length   | 32           |   0x20 |
+/// | arg0     | 32           |   0x40 |
+/// | arg1     | 32           |   0x60 |
+/// | arg2     | 32           |   0x80 |
+/// | arg3     | 32           |   0xa0 |
+/// | arg4     | 32           |   0xc0 |
 
 #define macro MAIN() = takes(0) returns(0) {
 
